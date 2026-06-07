@@ -137,6 +137,8 @@ REST_FRAMEWORK = {
     ],
 }
 
+
+
 # JWT settings
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
@@ -196,6 +198,7 @@ LOGGING = {
         'level': 'DEBUG',
     },
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/

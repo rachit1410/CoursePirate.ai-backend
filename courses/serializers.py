@@ -5,12 +5,14 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+# Serializes user model
 class UserSerailizer(serializers.ModelSerializer):
     
     class Meta:
         model = User
         fields = ['id', 'name']
 
+# serializes course model - for fetching list
 class CourseSerializer(serializers.ModelSerializer):
     user = UserSerailizer(required=False)
 
@@ -18,7 +20,7 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         exclude = ['updated_at']
 
-
+# serializes module model
 class ModuleSerializer(serializers.ModelSerializer):
     course = CourseSerializer()
 
@@ -27,6 +29,7 @@ class ModuleSerializer(serializers.ModelSerializer):
         exclude = ['updated_at']
 
 
+# serializes videoresourse model
 class VideoResourceSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -34,6 +37,7 @@ class VideoResourceSerializer(serializers.ModelSerializer):
         exclude = ['updated_at']
 
 
+# serializes lesson model - to GET a Lesson
 class LessonSerializer(serializers.ModelSerializer):
     module = ModuleSerializer()
     videos = VideoResourceSerializer(many=True)
@@ -86,8 +90,10 @@ class LessonSerializer(serializers.ModelSerializer):
             'data': serializer.data,
             'error_message': None
         }
+        #  add background progress system
         
 
+# serializes userprogress model - to fetch list of progress in different courses
 class UserProgressSerializer(serializers.ModelSerializer):
     lesson = LessonSerializer()
     user = UserSerailizer()
@@ -96,6 +102,7 @@ class UserProgressSerializer(serializers.ModelSerializer):
         model = UserProgress
         fields = ['user', 'lesson', 'completed']
 
+# serializes course model - fetch a single Course
 class CourseDetailSerializer(serializers.ModelSerializer):
     user = UserSerailizer(required=False)
     modules = ModuleSerializer(many=True)
@@ -156,4 +163,4 @@ class CourseDetailSerializer(serializers.ModelSerializer):
                 'data': serializer.data,
                 'error_message': None
             }
-        
+
