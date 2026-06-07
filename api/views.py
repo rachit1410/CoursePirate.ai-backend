@@ -1,9 +1,13 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
+
+@csrf_exempt
 @ensure_csrf_cookie
 @api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
 def csrf_init(request):
     return Response(
         {
@@ -13,4 +17,3 @@ def csrf_init(request):
             'error_message': None
         }
     )
-
